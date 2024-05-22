@@ -1,0 +1,4 @@
+- source: project
+  netlify:
+    - id: 96627a36-9b26-4511-900a-17c1d3f46e6a
+      url: 'https://py-ds-lightbridge.netlify.app'

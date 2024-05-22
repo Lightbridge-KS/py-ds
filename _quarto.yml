@@ -1,0 +1,31 @@
+project:
+  type: book
+
+book:
+  title: "Data Science with Python"
+  author: "Kittipos Sirivongrungson"
+  date: "5/18/2024"
+  repo-url: https://github.com/Lightbridge-KS/py-ds
+  site-url: https://py-ds-lightbridge.netlify.app
+  chapters:
+    - index.qmd
+    - part: "Pandas"
+      chapters: 
+        - "pandas/pd-series.ipynb"
+        - "pandas/pd-df.ipynb"
+        - "pandas/pd-cms-1.ipynb"
+        - "pandas/pd-cms-sof-1.ipynb"
+    - references.qmd
+
+
+# bibliography: references.bib
+
+format:
+  html:
+    theme: zephyr
+
+execute:
+  freeze: auto
+
+
+
