@@ -13,6 +13,7 @@ book:
       chapters: 
         - "pandas/pd-series.ipynb"
         - "pandas/pd-df.ipynb"
+        - "pandas/pd-df-filt.ipynb"
         - "pandas/pd-cms-1.ipynb"
         - "pandas/pd-cms-sof-1.ipynb"
     - references.qmd
