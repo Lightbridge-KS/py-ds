@@ -16,6 +16,9 @@ book:
         - "pandas/pd-df-filt.ipynb"
         - "pandas/pd-cms-1.ipynb"
         - "pandas/pd-cms-sof-1.ipynb"
+    - part: "Deeplearning"
+      chapters:
+        - "dl/perceptron.ipynb"
     - references.qmd
 
 
