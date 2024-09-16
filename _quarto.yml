@@ -16,9 +16,12 @@ book:
         - "pandas/pd-df-filt.ipynb"
         - "pandas/pd-cms-1.ipynb"
         - "pandas/pd-cms-sof-1.ipynb"
-    - part: "Deeplearning"
+    - part: "Deep learning"
       chapters:
         - "dl/perceptron.ipynb"
+    - part: "PyTorch"
+      chapters: 
+        - "torch/torch-intro.ipynb"
     - references.qmd
 
 
