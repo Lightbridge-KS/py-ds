@@ -1,0 +1,102 @@
+---
+title: "Data Encryption"
+---
+
+::: {.callout-note appearance="simple"}
+**Prompt:** If I have a sensitive data, such as Hospital Number (HN), how to encrypt it in some text string and able to retrieve back as needed with permission?
+:::
+
+
+To securely encrypt and decrypt sensitive data like a Hospital Number (HN), you can use **symmetric encryption** with a strong encryption algorithm, such as **AES (Advanced Encryption Standard)**. Symmetric encryption uses the same key for both encryption and decryption, so you'll need to ensure that the key is securely managed and only accessible with the proper permissions.
+
+
+Here’s a step-by-step guide to encrypt and decrypt sensitive data like a Hospital Number (HN):
+
+## Example Code:
+
+### Step 1: Generate a key 
+
+(Do this once and store the key securely, like in an environment variable)
+
+```{python}
+from cryptography.fernet import Fernet
+
+# Step 1: Generate a key (Do this once and store the key securely, like in an environment variable)
+# Key generation
+key = Fernet.generate_key()
+cipher_suite = Fernet(key)
+
+print(f"key = {key}")
+print(f"Encryption Key: {key.decode()}")
+```
+
+### Step 2: Encrypt the Hospital Number (HN)
+
+```{python}
+def encrypt_hn(hospital_number: str, cipher_suite: Fernet) -> str:
+    encrypted_data = cipher_suite.encrypt(hospital_number.encode())
+    return encrypted_data.decode()
+```
+
+### Step 3: Decrypt the encrypted HN
+
+```{python}
+def decrypt_hn(encrypted_hn: str, cipher_suite: Fernet) -> str:
+    decrypted_data = cipher_suite.decrypt(encrypted_hn.encode())
+    return decrypted_data.decode()
+```
+
+### Example Usage
+
+```{python}
+hospital_number = "123456"
+
+# Encrypt the HN
+encrypted_hn = encrypt_hn(hospital_number, cipher_suite)
+print(f"Encrypted Hospital Number: {encrypted_hn}")
+
+# Decrypt the HN (with the correct key)
+decrypted_hn = decrypt_hn(encrypted_hn, cipher_suite)
+print(f"Decrypted Hospital Number: {decrypted_hn}")
+```
+
+### How It Works:
+
+1. **Key Generation**:
+   
+   - The `Fernet.generate_key()` function generates a random key that is used to encrypt and decrypt the data. **This key must be securely stored** because it is required for decryption.
+   
+   You should store this key in a **secure location** like an environment variable, a hardware security module (HSM), or a secure vault.
+
+2. **Encryption**:
+   
+   - The `encrypt_hn()` function takes the hospital number, encodes it as bytes, and uses the `Fernet` cipher suite to encrypt it.
+   - The encrypted data is returned as a base64-encoded string.
+
+3. **Decryption**:
+   
+   - The `decrypt_hn()` function takes the encrypted string, decodes it, and decrypts it using the same `Fernet` cipher suite and key.
+
+### Important Considerations:
+
+- **Key Security**: The encryption key is crucial to the security of the data. Ensure that the key is stored in a secure location, like an environment variable or a secure secrets manager (e.g., AWS Secrets Manager, Azure Key Vault).
+- **Permission Control**: Only authorized users or processes should have access to the encryption key. You can implement role-based access control (RBAC) to restrict key access to authorized personnel.
+- **Key Rotation**: It's a good security practice to rotate encryption keys periodically. Make sure to securely rotate the key and re-encrypt the data as needed.
+- **Environment Variables**: In production, avoid hardcoding the key in the code. Instead, load it from an environment variable:
+  
+```python
+import os
+key = os.getenv('ENCRYPTION_KEY').encode()
+cipher_suite = Fernet(key)
+```
+
+### Storing the Key Securely:
+
+- **Local Development**: Use environment variables (`os.getenv()`).
+- **Production**: Use a secrets manager (AWS Secrets Manager, Google Secret Manager, Azure Key Vault, etc.).
+
+### Summary:
+
+- **Encrypt** sensitive data like a hospital number using a symmetric encryption algorithm (AES via the `Fernet` cipher).
+- **Store the key securely** and ensure only authorized entities can access it.
+- **Decrypt** the data when necessary with the proper permissions and access control.
