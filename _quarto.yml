@@ -16,7 +16,10 @@ book:
         - "pandas/pd-df-filt.ipynb"
         - "pandas/pd-cms-1.ipynb"
         - "pandas/pd-cms-sof-1.ipynb"
+        - "pandas/pd-mutate.ipynb"
         - "pandas/pd-funprog.ipynb"
+        - "tips/vectorize.ipynb"
+        - "pandas/pd-pipe.ipynb"
     - part: "Deep learning"
       chapters:
         - "dl/perceptron.ipynb"
