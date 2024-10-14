@@ -1,0 +1,123 @@
+---
+title: "PD: File I/O"
+---
+
+## Read/Write DataFrame
+
+In `pandas`, if you want to save a `DataFrame` to disk without losing information like data types, formatting, and other attributes, the best approach is to use formats that can serialize both the data and its metadata. Two formats that work well for this purpose in `pandas` are **Pickle (`.pkl`)** and **Parquet (`.parquet`)**.
+
+### Using Pickle (`.pkl`) Format
+
+Pickle is a Python-specific binary serialization format that can save a `pandas` `DataFrame` to disk, preserving the exact data types, indices, and other attributes (like column metadata) that might be lost when exporting to a text-based format (e.g., CSV).
+
+**Writing a DataFrame to a Pickle file:**
+
+```python
+import pandas as pd
+
+# Sample DataFrame with different types and formatting
+df = pd.DataFrame({
+    'A': [1, 2, 3],
+    'B': pd.Series(['2021-01-01', '2021-02-01', '2021-03-01'], dtype='datetime64[ns]'),
+    'C': pd.Series([1.1, 2.2, 3.3], dtype='float'),
+    'D': ['apple', 'banana', 'cherry']
+})
+
+# Save DataFrame to a Pickle file
+df.to_pickle('dataframe.pkl')
+```
+
+**Reading a DataFrame back from the Pickle file:**
+
+```python
+# Read the DataFrame back from the Pickle file
+df_loaded = pd.read_pickle('dataframe.pkl')
+
+print(df_loaded)
+```
+
+When you save the `DataFrame` as a `.pkl` file and read it back, the data types, formatting (e.g., `datetime`, `float`), and other metadata will be preserved.
+
+#### Pros of using Pickle:
+
+- **Preserves exact data types** (e.g., `datetime`, `categorical`, `float`).
+- **Supports complex data** (like custom indices, multi-indexing, object types).
+- **Efficient** for saving and loading large datasets.
+
+#### Cons of using Pickle:
+
+- **Python-specific**: It’s not cross-language, so it’s mainly for use in Python environments.
+- **Binary format**: You can't easily inspect the file without loading it in Python.
+
+### Using Parquet (`.parquet`) Format
+
+Parquet is a columnar storage format that supports efficient data compression and encoding schemes. It is widely used in big data systems and supports interoperability with multiple programming languages (e.g., Python, R, Apache Spark).
+
+In addition to preserving data types, Parquet is ideal for handling large datasets efficiently.
+
+**Writing a DataFrame to a Parquet file:**
+
+```python
+# Save DataFrame to a Parquet file
+df.to_parquet('dataframe.parquet')
+```
+
+**Reading a DataFrame back from the Parquet file:**
+
+```python
+# Read the DataFrame back from the Parquet file
+df_loaded = pd.read_parquet('dataframe.parquet')
+
+print(df_loaded)
+```
+
+#### Pros of using Parquet:
+
+- **Preserves data types** (e.g., `datetime`, `float`, `categorical`).
+- **Efficient for large datasets** due to its columnar storage format.
+- **Interoperable** with multiple languages (e.g., Python, R, Spark).
+- **Supports compression**, which can reduce file sizes.
+
+#### Cons of using Parquet:
+
+- **Binary format**: Like Pickle, you cannot inspect the file directly.
+- **May not support all Python-specific data types** (e.g., custom objects) as well as Pickle does.
+
+### 3. **Other Formats: HDF5 (`.h5`)**
+
+If you're working with large datasets or need high-performance I/O, another option is **HDF5 (`.h5`)** format, which is designed for storing large amounts of data. It can store metadata (e.g., column names, data types) along with the data.
+
+**Writing a DataFrame to an HDF5 file:**
+
+```python
+# Save DataFrame to an HDF5 file
+df.to_hdf('dataframe.h5', key='df', mode='w')
+```
+
+**Reading a DataFrame back from the HDF5 file:**
+
+```python
+# Read the DataFrame back from the HDF5 file
+df_loaded = pd.read_hdf('dataframe.h5', key='df')
+
+print(df_loaded)
+```
+
+#### Pros of using HDF5:
+
+- **Supports metadata** preservation (data types, column names).
+- **Efficient I/O** for large datasets.
+- **Supports compression**.
+
+#### Cons of using HDF5:
+
+- **Python and R compatibility**, but not as widely used across other systems as Parquet.
+- **Complexity** in setup if the datasets are small.
+
+### Conclusion
+
+- **Pickle (`.pkl`)**: If you're working primarily in Python and want to save and reload the exact state of a `DataFrame`, Pickle is a great option.
+- **Parquet (`.parquet`)**: Best for interoperable, cross-language workflows and handling large datasets. It efficiently stores and preserves data types.
+- **HDF5 (`.h5`)**: Ideal for large datasets and supports hierarchical storage of data, but more complex to work with than Parquet or Pickle.
+
+For compatibility with R, **Parquet** would be the best format since R supports reading/writing Parquet files via libraries like `arrow`.

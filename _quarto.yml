@@ -20,6 +20,7 @@ book:
         - "pandas/pd-funprog.ipynb"
         - "tips/vectorize.ipynb"
         - "pandas/pd-pipe.ipynb"
+        - "pandas/pd-io.qmd"
     - part: "Deep learning"
       chapters:
         - "dl/perceptron.ipynb"
