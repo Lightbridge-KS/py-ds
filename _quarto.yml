@@ -21,6 +21,9 @@ book:
         - "tips/vectorize.ipynb"
         - "pandas/pd-pipe.ipynb"
         - "pandas/pd-io.qmd"
+    - part: "Siuba"
+      chapters: 
+        - "siuba/siuba-intro.ipynb"
     - part: "Deep learning"
       chapters:
         - "dl/perceptron.ipynb"
