@@ -1,0 +1,158 @@
+---
+title: "Data Type"
+---
+
+Here is the mapping of R data types to their equivalent Python and `pandas` data types:
+
+| **R Data Type**   | **Description**                      | **Python Data Type**             | **pandas Data Type**              |
+|-------------------|--------------------------------------|----------------------------------|----------------------------------|
+| **`character`**   | String values                        | `str`                           | `object` or `string`             |
+| **`factor`**      | Categorical data with fixed levels   | `str` or `Categorical`          | `Categorical`                    |
+| **`double`**      | Decimal numbers (floating-point)     | `float`                         | `float64`                        |
+| **`integer`**     | Whole numbers                        | `int`                           | `int64`                          |
+| **`date`**        | Date values (without time)           | `datetime.date`                 | `datetime64[ns]` (with date only)|
+| **`POSIXct` / `date.time`** | Date-time values            | `datetime.datetime`             | `datetime64[ns]`                 |
+| **`logical`**     | Boolean values (TRUE/FALSE)          | `bool`                          | `bool`                           |
+| **`NA` / `NULL`** | Missing or null values               | `None`, `numpy.nan`             | `NaN`, `None`                    |
+
+Below are detailed examples and explanations for each data type.
+
+---
+
+## Character → String (`str` or `object`)
+
+- **R**: `"Hello"`, `"abc"`
+- **Python**: `str`
+- **pandas**: By default, string columns in `pandas` are stored as `object` (a generic type that can hold anything). However, starting with **pandas 1.0**, you can explicitly use the `string` dtype.
+
+```{python}
+import pandas as pd
+
+df = pd.DataFrame({'name': ['Alice', 'Bob', 'Charlie']})
+print(df.dtypes)  # dtype will show 'object'
+```
+
+You can also use the newer `string` dtype:
+
+```{python}
+df = pd.DataFrame({'name': pd.Series(['Alice', 'Bob', 'Charlie'], dtype='string')})
+print(df.dtypes)  # dtype will show 'string'
+```
+
+---
+
+## Factor → Categorical (`Categorical`)
+
+- **R**: `factor(c("low", "medium", "high"))`
+- **Python / pandas**: `pd.Categorical`
+
+In Python, categorical data is represented using the `Categorical` data type. This is useful for values that take a limited set of distinct values (e.g., "low", "medium", "high").
+
+```{python}
+df = pd.DataFrame({
+    'rating': pd.Categorical(['low', 'medium', 'high', 'medium'], categories=['low', 'medium', 'high'], ordered=True)
+})
+
+print(df)
+print(df.dtypes)  # dtype will show 'category'
+```
+
+---
+
+## Double → Float (`float64`)
+
+- **R**: `3.14`, `2.718`
+- **Python**: `float`
+- **pandas**: `float64`
+
+Floating-point numbers in `pandas` are represented as `float64` by default.
+
+```{python}
+df = pd.DataFrame({'pi': [3.14, 2.718, 1.618]})
+print(df.dtypes)  # dtype will show 'float64'
+```
+
+---
+
+## Integer → Integer (`int64`)
+
+- **R**: `1`, `2`, `3`
+- **Python**: `int`
+- **pandas**: `int64`
+
+In `pandas`, integer columns are represented as `int64`.
+
+```{python}
+df = pd.DataFrame({'count': [1, 2, 3, 4]})
+print(df.dtypes)  # dtype will show 'int64'
+```
+
+---
+
+## Date → `datetime.date` / `datetime64[ns]`
+
+- **R**: `as.Date("2021-01-01")`
+- **Python**: `datetime.date`
+- **pandas**: `datetime64[ns]` (can store both date and time, but you can ignore the time part if you only need dates).
+
+```{python}
+df = pd.DataFrame({'date': pd.to_datetime(['2021-01-01', '2021-02-01', '2021-03-01'])})
+print(df)
+print(df.dtypes)  # dtype will show 'datetime64[ns]'
+```
+
+If you need to store just the **date** part without the time, you can format it accordingly:
+
+```{python}
+df['date_only'] = df['date'].dt.date
+print(df['date_only'].head())  # dtype remains 'datetime64[ns]', but only the date part is used.
+```
+
+---
+
+## POSIXct / Date-Time → `datetime.datetime` / `datetime64[ns]`
+
+- **R**: `as.POSIXct("2021-01-01 12:34:56")`
+- **Python**: `datetime.datetime`
+- **pandas**: `datetime64[ns]`
+
+For datetime values, `pandas` uses the `datetime64[ns]` dtype, which can store both date and time.
+
+```{python}
+df = pd.DataFrame({'timestamp': pd.to_datetime(['2021-01-01 12:34:56', '2021-02-01 14:30:00'])})
+print(df)
+print(df.dtypes)  # dtype will show 'datetime64[ns]'
+```
+
+---
+
+## Logical → Boolean (`bool`)
+
+- **R**: `TRUE`, `FALSE`
+- **Python**: `bool`
+- **pandas**: `bool`
+
+In `pandas`, boolean values are represented with the `bool` dtype.
+
+```{python}
+df = pd.DataFrame({'is_active': [True, False, True]})
+print(df.dtypes)  # dtype will show 'bool'
+```
+
+---
+
+## 8. **NA / NULL → `None` or `numpy.nan`**
+
+- **R**: `NA`, `NULL`
+- **Python**: `None` or `numpy.nan`
+- **pandas**: `NaN` or `None`
+
+In `pandas`, missing values are typically represented by `numpy.nan` for numeric data and `None` for object or string data.
+
+```{python}
+import numpy as np
+
+df = pd.DataFrame({'numbers': [1, np.nan, 3], 'names': ['Alice', None, 'Charlie']})
+print(df)
+print(df.dtypes)  # 'numbers' is 'float64', 'names' is 'object'
+```

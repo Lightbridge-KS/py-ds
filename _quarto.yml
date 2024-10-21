@@ -11,6 +11,7 @@ book:
     - index.qmd
     - part: "Pandas"
       chapters: 
+        - "pandas/pd-datatype.qmd"
         - "pandas/pd-series.ipynb"
         - "pandas/pd-df.ipynb"
         - "pandas/pd-df-filt.ipynb"
