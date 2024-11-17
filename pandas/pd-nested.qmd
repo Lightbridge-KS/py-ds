@@ -1,0 +1,93 @@
+---
+title: Nested DF
+---
+
+To unnest a column containing nested pandas `Series` (or lists, dictionaries, or similar structures) into individual rows or columns, you can use various `pandas` methods. This operation is similar to R's `tidyr::unnest()` function.
+
+Here’s how you can unnest `Series` in a pandas DataFrame:
+
+---
+
+## Unnesting DF contained `Series`
+
+```{python}
+import pandas as pd
+
+# Sample DataFrame with nested Series
+data = {
+    "id": [1, 2, 3],
+    "nested_series": [pd.Series([10, 20, 30]), pd.Series([40, 50]), pd.Series([60])]
+}
+
+df = pd.DataFrame(data)
+df
+```
+
+
+### Unnest into Rows
+
+To unnest the `nested_series` column into rows, use `explode()`. It expands each nested structure into separate rows.
+
+
+```{python}
+# Unnest the nested_series into separate rows
+df_unnested = df.explode('nested_series').reset_index(drop=True)
+df_unnested
+```
+
+**Explanation:**
+
+- `explode()` splits the `Series` in the `nested_series` column into individual rows.
+- `reset_index()` is used to reindex the resulting DataFrame for cleaner output.
+
+---
+
+### Unnest into Columns
+
+If you want to unnest the `Series` into multiple columns, convert them into a `DataFrame` using `pd.concat` or `.apply(pd.Series)`.
+
+```{python}
+# Unnest the nested_series into separate columns
+df_unnested_cols = pd.concat(
+    [df.drop(columns='nested_series'), df['nested_series'].apply(pd.Series)], axis=1
+    )
+df_unnested_cols
+```
+
+
+**Explanation:**
+
+- `df['nested_series'].apply(pd.Series)` converts the `Series` in the column into a `DataFrame` with one column per value.
+- `pd.concat()` merges this with the rest of the original DataFrame.
+
+---
+
+### Unnest into a Long Format
+
+You can unnest into a long format with identifiers using `explode()` and create an additional identifier column.
+
+
+```{python}
+# Add an identifier column for position in nested Series
+df_long = df.explode('nested_series').reset_index(drop=True)
+df_long['position'] = df_long.groupby('id').cumcount() + 1
+
+df_long
+```
+
+**Explanation:**
+
+- `explode()` unnests the `Series` into rows.
+- `groupby('id').cumcount()` adds a position identifier for the unnesting, mimicking the long format with row-wise detail.
+
+---
+
+### Summary of Methods:
+
+| **Goal**                    | **Method**                                             | **Example**                              |
+|-----------------------------|-------------------------------------------------------|------------------------------------------|
+| Unnest into rows            | `explode()`                                           | `df.explode('column')`                   |
+| Unnest into columns         | `apply(pd.Series)` + `pd.concat()`                    | `pd.concat([...], axis=1)`               |
+| Unnest into long format     | `explode()` + `groupby().cumcount()`                  | `df.explode('column').reset_index()`     |
+
+Let me know if you have more specific scenarios or need additional examples!
