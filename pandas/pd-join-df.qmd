@@ -6,7 +6,7 @@ title: Joining DataFrames
 import pandas as pd
 ```
 
-## Mutating Joins in `pandas`
+## Mutating Joins
 
 To perform mutating joins in `pandas` similar to `{dplyr}` joins in R, you can use the `.merge()` method and specify the appropriate `how` parameter. Below is a guide to achieve the `inner_join`, `left_join`, and `full_join` functionality in pandas.
 
@@ -100,4 +100,89 @@ y = pd.DataFrame({'id_y': [2, 3, 4], 'value_y': ['d', 'e', 'f']})
 # Perform an inner join with different key column names
 inner_join = pd.merge(x, y, left_on='id_x', right_on='id_y', how='inner')
 inner_join
+```
+
+## Filtering Joins
+
+In `pandas`, filtering joins like `semi_join()` and `anti_join()` can be implemented using methods such as `.merge()`, boolean indexing, and `pandas` operations like `.isin()`. Below is how to achieve the functionality of `{dplyr}` filtering joins in pandas.
+
+
+```{python}
+import pandas as pd
+
+# DataFrame x (left table)
+x = pd.DataFrame({
+    'key': [1, 2, 3, 4],
+    'value_x': ['a', 'b', 'c', 'd']
+})
+
+# DataFrame y (right table)
+y = pd.DataFrame({
+    'key': [2, 3, 5],
+    'value_y': ['e', 'f', 'g']
+})
+```
+
+```{python}
+x
+```
+
+```{python}
+y
+```
+
+
+### `semi_join()`
+
+- **Description**: Keeps all rows in `x` where there is a matching `key` in `y`. The result only includes columns from `x`.
+
+You can use `.isin()` to filter rows in `x` where the `key` exists in `y`.
+
+```{python}
+# Semi-join: Keep rows in x that have a match in y
+semi_join = x[x['key'].isin(y['key'])]
+semi_join
+```
+
+
+- `y['key']` provides the keys in `y`.
+- `x['key'].isin(y['key'])` creates a boolean mask for rows in `x` where `key` exists in `y`.
+
+
+### `anti_join()`
+
+- **Description**: Keeps all rows in `x` where there is **no matching `key`** in `y`. The result only includes columns from `x`.
+
+
+You can use `.isin()` with the `~` operator (logical NOT) to filter rows in `x` where the `key` does **not** exist in `y`.
+
+```{python}
+# Anti-join: Drop rows in x that have a match in y
+anti_join = x[~x['key'].isin(y['key'])]
+anti_join
+```
+
+- `~x['key'].isin(y['key'])` creates a boolean mask for rows in `x` where `key` is **not** in `y`.
+
+
+### Summary of Filtering Joins
+
+| **Join Type**   | **Description**                                             | **Implementation**                     |
+|------------------|-------------------------------------------------------------|-----------------------------------------|
+| `semi_join(x, y)` | Keeps rows in `x` where there is a match in `y`.            | `x[x['key'].isin(y['key'])]`            |
+| `anti_join(x, y)` | Keeps rows in `x` where there is no match in `y`.           | `x[~x['key'].isin(y['key'])]`           |
+
+---
+
+#### Example of Combined Filtering Joins
+
+If you want to perform both filtering joins and combine their outputs for analysis, you can do so in pandas:
+
+```{python}
+# Semi-join: Rows in x with a match in y
+semi_join = x[x['key'].isin(y['key'])]
+semi_join
+# Anti-join: Rows in x without a match in y
+anti_join = x[~x['key'].isin(y['key'])]
+anti_join
 ```
