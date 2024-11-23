@@ -102,6 +102,50 @@ inner_join = pd.merge(x, y, left_on='id_x', right_on='id_y', how='inner')
 inner_join
 ```
 
+
+### Joining on Multiple Columns
+
+#### Same Names
+
+```{python}
+import pandas as pd
+
+# DataFrame x
+x = pd.DataFrame({
+    'key1': ['A', 'B', 'C', 'A'],
+    'key2': [1, 2, 3, 4],
+    'value_x': ['apple', 'banana', 'cherry', 'date']
+})
+x
+
+# DataFrame y
+y = pd.DataFrame({
+    'key1': ['A', 'B', 'A', 'D'],
+    'key2': [1, 2, 4, 5],
+    'value_y': ['red', 'yellow', 'green', 'blue']
+})
+y
+```
+
+```{python}
+# Inner join on key1 and key2
+inner_join = pd.merge(x, y, on=['key1', 'key2'], how='inner')
+inner_join
+```
+
+#### Different Names
+
+```{python}
+# DataFrames with different column names for keys
+x = pd.DataFrame({'key1_x': ['A', 'B', 'C'], 'key2_x': [1, 2, 3], 'value_x': ['apple', 'banana', 'cherry']})
+y = pd.DataFrame({'key1_y': ['A', 'B', 'A'], 'key2_y': [1, 2, 4], 'value_y': ['red', 'yellow', 'green']})
+
+# Merge on different column names
+merged = pd.merge(x, y, left_on=['key1_x', 'key2_x'], right_on=['key1_y', 'key2_y'], how='inner')
+merged
+```
+
+
 ## Filtering Joins
 
 In `pandas`, filtering joins like `semi_join()` and `anti_join()` can be implemented using methods such as `.merge()`, boolean indexing, and `pandas` operations like `.isin()`. Below is how to achieve the functionality of `{dplyr}` filtering joins in pandas.
