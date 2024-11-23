@@ -1,0 +1,103 @@
+---
+title: Joining DataFrames
+---
+
+```{python}
+import pandas as pd
+```
+
+## Mutating Joins in `pandas`
+
+To perform mutating joins in `pandas` similar to `{dplyr}` joins in R, you can use the `.merge()` method and specify the appropriate `how` parameter. Below is a guide to achieve the `inner_join`, `left_join`, and `full_join` functionality in pandas.
+
+
+```{python}
+# DataFrame x (left table)
+x = pd.DataFrame({
+    'key': [1, 2, 3],
+    'value_x': ['a', 'b', 'c']
+})
+
+# DataFrame y (right table)
+y = pd.DataFrame({
+    'key': [2, 3, 4],
+    'value_y': ['d', 'e', 'f']
+})
+```
+
+```{python}
+x
+```
+
+```{python}
+y
+```
+
+
+### `inner_join()`
+
+- **Description**: Includes only rows where the `key` matches in both `x` and `y`.
+
+```{python}
+# Perform an inner join
+inner_join = pd.merge(x, y, on='key', how='inner')
+inner_join
+```
+
+- `on='key'` specifies the column to join on.
+- `how='inner'` keeps only rows with matching keys in both DataFrames.
+
+
+### `left_join()`
+
+- **Description**: Includes all rows from `x`, regardless of whether there is a matching row in `y`.
+
+```{python}
+# Perform a left join
+left_join = pd.merge(x, y, on='key', how='left')
+left_join
+```
+
+- `how='left'` ensures all rows from `x` are retained.
+- Rows in `x` with no match in `y` have `NaN` values for columns from `y`.
+
+
+### `full_join()`
+
+- **Description**: Includes all rows from both `x` and `y`. Rows with no match in either DataFrame are filled with `NaN`.
+
+```{python}
+# Perform a full join
+full_join = pd.merge(x, y, on='key', how='outer')
+full_join
+```
+
+
+- `how='outer'` includes all rows from both `x` and `y`.
+- Rows with no match are filled with `NaN`.
+
+
+### Summary of `pandas.merge()` `how` Parameter:
+
+| **Join Type**     | **`how` Parameter** | **Description**                                                                |
+|--------------------|---------------------|--------------------------------------------------------------------------------|
+| `inner_join()`     | `'inner'`          | Keeps only rows with keys in both `x` and `y`.                                 |
+| `left_join()`      | `'left'`           | Keeps all rows from `x` and adds matching rows from `y` (or `NaN` if no match).|
+| `full_join()`      | `'outer'`          | Keeps all rows from both `x` and `y`, filling unmatched rows with `NaN`.       |
+
+---
+
+### Joining on Columns with Different Names
+
+If the key column names differ between `x` and `y`, use the `left_on` and `right_on` parameters.
+
+
+```{python}
+# DataFrames with different key column names
+x = pd.DataFrame({'id_x': [1, 2, 3], 'value_x': ['a', 'b', 'c']})
+y = pd.DataFrame({'id_y': [2, 3, 4], 'value_y': ['d', 'e', 'f']})
+
+# Perform an inner join with different key column names
+inner_join = pd.merge(x, y, left_on='id_x', right_on='id_y', how='inner')
+inner_join
+```

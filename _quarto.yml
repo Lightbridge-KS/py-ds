@@ -23,6 +23,7 @@ book:
         - "pandas/pd-pipe.ipynb"
         - "pandas/pd-io.qmd"
         - "pandas/pd-nested.qmd"
+        - "pandas/pd-join-df.qmd"
     - part: "Siuba"
       chapters: 
         - "siuba/siuba-intro.ipynb"
