@@ -34,6 +34,7 @@ book:
       chapters: 
         - "torch/torch-intro.ipynb"
         - "torch/p1ch2/2_pre_trained_networks.ipynb"
+        - "torch/p1ch2/3_cycleGAN.ipynb"
     - part: Misc
       chapters: 
         - "misc/encryp.qmd"
