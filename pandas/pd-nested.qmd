@@ -8,7 +8,7 @@ Here’s how you can unnest `Series` in a pandas DataFrame:
 
 ---
 
-## Unnesting DF contained `Series`
+## Unnesting DF contained `Series` or `Dict`
 
 ```{python}
 import pandas as pd
@@ -24,6 +24,17 @@ df
 ```
 
 
+```{python}
+data2 = {
+    "id": [1, 2, 3],
+    "nested_dict": [{"A": 1, "B": 2}, {"A": 2, "B": 4},
+    {"A": 5, "B": 10}]
+}
+
+df2 = pd.DataFrame(data2)
+df2
+```
+
 ### Unnest into Rows
 
 To unnest the `nested_series` column into rows, use `explode()`. It expands each nested structure into separate rows.
@@ -35,6 +46,13 @@ df_unnested = df.explode('nested_series').reset_index(drop=True)
 df_unnested
 ```
 
+```{python}
+# Unnest the nested_series into separate rows
+df_unnested2 = df2.explode('nested_dict').reset_index(drop=True)
+df_unnested2
+```
+
+
 **Explanation:**
 
 - `explode()` splits the `Series` in the `nested_series` column into individual rows.
@@ -44,6 +62,8 @@ df_unnested
 
 ### Unnest into Columns
 
+#### Series
+
 If you want to unnest the `Series` into multiple columns, convert them into a `DataFrame` using `pd.concat` or `.apply(pd.Series)`.
 
 ```{python}
@@ -52,6 +72,16 @@ df_unnested_cols = pd.concat(
     [df.drop(columns='nested_series'), df['nested_series'].apply(pd.Series)], axis=1
     )
 df_unnested_cols
+```
+
+
+#### Dict
+
+```{python}
+pd.concat(
+    [df2.drop(columns="nested_dict"),
+    df2['nested_dict'].apply(pd.Series)], axis=1
+)
 ```
 
 
