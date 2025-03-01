@@ -13,8 +13,10 @@ book:
       chapters: 
         - "pandas/pd-datatype.qmd"
         - "pandas/pd-series.ipynb"
+        - "pandas/pd-series-iterate.ipynb"
         - "pandas/pd-df.ipynb"
         - "pandas/pd-df-filt.ipynb"
+        - "pandas/pd-rename.ipynb"
         - "pandas/pd-cms-1.ipynb"
         - "pandas/pd-cms-sof-1.ipynb"
         - "pandas/pd-mutate.ipynb"
