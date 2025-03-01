@@ -12,6 +12,7 @@ book:
     - part: "Pandas"
       chapters: 
         - "pandas/pd-datatype.qmd"
+        - "pandas/pd-datatype-deep.ipynb"
         - "pandas/pd-series.ipynb"
         - "pandas/pd-series-iterate.ipynb"
         - "pandas/pd-df.ipynb"
