@@ -24,6 +24,7 @@ book:
         - "pandas/pd-io.qmd"
         - "pandas/pd-nested.qmd"
         - "pandas/pd-join-df.qmd"
+        - "pandas/top_25_pandas_tricks.ipynb"
     - part: "Siuba"
       chapters: 
         - "siuba/siuba-intro.ipynb"
