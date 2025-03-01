@@ -15,6 +15,7 @@ book:
         - "pandas/pd-datatype-deep.ipynb"
         - "pandas/pd-series.ipynb"
         - "pandas/pd-series-iterate.ipynb"
+        - "pandas-eff/pd-series-deepdive.ipynb"
         - "pandas/pd-df.ipynb"
         - "pandas/pd-df-filt.ipynb"
         - "pandas/pd-rename.ipynb"
