@@ -29,6 +29,9 @@ book:
         - "pandas/pd-nested.qmd"
         - "pandas/pd-join-df.qmd"
         - "pandas/top_25_pandas_tricks.ipynb"
+    - part: "Pandas: UseCase"
+      chapters: 
+        - "pandas/pd-count.ipynb"
     - part: "Siuba"
       chapters: 
         - "siuba/siuba-intro.ipynb"
