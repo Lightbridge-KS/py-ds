@@ -35,6 +35,9 @@ book:
     - part: "Siuba"
       chapters: 
         - "siuba/siuba-intro.ipynb"
+    - part: "Stats"
+      chapters: 
+        - "sm/sm-basic.ipynb"
     - part: "Deep learning"
       chapters:
         - "dl/perceptron.ipynb"
